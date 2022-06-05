@@ -1,0 +1,52 @@
+apiVersion: skaffold/v2beta28
+kind: Config
+metadata:
+  name: basic
+build:
+  local:
+    push: false
+  artifacts:
+    - image: omenology/comment
+      context: comment
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: omenology/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: omenology/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: omenology/post
+      context: post
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: omenology/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+deploy:
+  kubectl:
+    manifests:
+      - infra/k8s/*
